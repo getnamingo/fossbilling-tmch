@@ -3,7 +3,7 @@
 {% block meta_title %}{{ 'TMCH Claims Notice'|trans }}{% endblock %}
 
 {% block body_class %}tmch{% endblock %}
-{% block breadcrumb %} <li class="active">{{ 'TMCH Claims Notice'|trans }}</li>{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page"><a href="#">{{ 'TMCH Claims Notice'|trans }}</a></li>{% endblock %}
 
 {% block page_header %}
 <article class="page-header">
@@ -16,13 +16,16 @@
     <article class="span12 data-block">
         <div class="data-container">
             <section>
-                {% if error is defined %}
-                    <div class="alert alert-danger">{{ error }}</div>
-                {% elseif note is defined %}
-                    <div class="alert alert-info">Claims notice: {{ note|e }}</div>
-                {% else %}
-                    <div class="alert alert-warning">No lookupKey provided in the URL.</div>
-                {% endif %}
+            {% if error %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% elseif note %}
+              <div class="alert alert-info">
+                Claims notice:<br>
+                {{ note|e|nl2br|raw }}
+              </div>
+            {% else %}
+              <div class="alert alert-warning">No lookupKey provided in the URL.</div>
+            {% endif %}
             </section>
         </div>
     </article>

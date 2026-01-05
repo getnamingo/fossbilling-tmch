@@ -44,18 +44,31 @@ class Client implements \FOSSBilling\InjectionAwareInterface
 
     public function get_index(\Box_App $app)
     {
-        // Access GET parameters and sanitize the lookupKey
+        $note = null;
+        $error = null;
+
         $lookupKey = filter_input(INPUT_GET, 'lookupKey', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        
+
+        if (empty($lookupKey)) {
+            $error = 'No lookupKey provided in the URL.';
+            return $app->render('mod_tmch_index', [
+                'note' => $note,
+                'error' => $error,
+            ]);
+        }
+
         $url = "https://test.tmcnis.org/cnis/".$lookupKey.".xml";
         $username = "";
-        $password = "@";
+        $password = "";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
         $xml = curl_exec($ch);
 
         if (curl_errno($ch)) {
@@ -65,7 +78,15 @@ class Client implements \FOSSBilling\InjectionAwareInterface
         curl_close($ch);
 
         if ($xml) {
+            libxml_use_internal_errors(true);
+
             $xml_object = simplexml_load_string($xml);
+
+            if ($xml_object === false) {
+                throw new \FOSSBilling\InformationException('Error parsing claims notice');
+            }
+
+            libxml_clear_errors();
             $xml_object->registerXPathNamespace("tmNotice", "urn:ietf:params:xml:ns:tmNotice-1.0");
             $claims = $xml_object->xpath('//tmNotice:claim');
 
