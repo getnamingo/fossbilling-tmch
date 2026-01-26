@@ -12,22 +12,42 @@
 {% endblock%}
 
 {% block content %}
-<div class="row">
-    <article class="span12 data-block">
-        <div class="data-container">
-            <section>
-            {% if error %}
-              <div class="alert alert-danger">{{ error }}</div>
-            {% elseif note %}
-              <div class="alert alert-info">
-                Claims notice:<br>
-                {{ note|e|nl2br|raw }}
-              </div>
-            {% else %}
-              <div class="alert alert-warning">No lookupKey provided in the URL.</div>
-            {% endif %}
-            </section>
+  <div class="row justify-content-center">
+    <div class="col-12">
+
+      <div class="card shadow-sm">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div>
+            <h5 class="mb-0">{{ 'Trademark Claims Notice'|trans }}</h5>
+            <div class="text-muted small">
+              {{ 'Review the notice below before continuing with registration.'|trans }}
+            </div>
+          </div>
         </div>
-    </article>
-</div>
+
+        <div class="card-body">
+
+          {% if error %}
+            <div class="alert alert-danger mb-0">
+              <strong>{{ 'Unable to load notice'|trans }}.</strong>
+              <div class="small mt-1">{{ error }}</div>
+            </div>
+
+          {% elseif note %}
+            <pre class="border rounded p-3 mb-0 bg-body text-body"
+                style="max-height: 520px; overflow:auto; white-space: pre-wrap; word-break: break-word;">
+{{ note|e }}
+            </pre>
+
+          {% else %}
+            <div class="alert alert-warning mb-0">
+              {{ 'No lookupKey provided in the URL.'|trans }}
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
 {% endblock %}
