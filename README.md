@@ -8,7 +8,8 @@ git clone https://github.com/getnamingo/fossbilling-tmch
 mv fossbilling-tmch/Tmch /var/www/modules/
 ```
 
-- Go to Extensions > Overview in the admin panel and activate "TMCH Claims Notice Support".
+- Go to Extensions > Overview in the admin panel and activate "TMCH Claims Notice".
+- Configure in System > Settings > TMCH Claims Notice.
 
 ## Usage Instructions
 

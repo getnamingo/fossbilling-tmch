@@ -1,17 +1,13 @@
 <?php
-
 /**
- * FOSSBilling.
+ * FOSSBilling-TMCH module
  *
- * @copyright FOSSBilling (https://www.fossbilling.org)
- * @license   Apache-2.0
+ * Written in 2024–2026 by Taras Kondratyuk (https://namingo.org)
+ * Based on example modules and inspired by existing modules of FOSSBilling
+ * (https://www.fossbilling.org) and BoxBilling.
  *
- * Copyright FOSSBilling 2022
- * This software may contain code previously used in the BoxBilling project.
- * Copyright BoxBilling, Inc 2011-2021
- *
- * This source file is subject to the Apache-2.0 License that is bundled
- * with this source code in the file LICENSE
+ * @license Apache-2.0
+ * @see https://www.apache.org/licenses/LICENSE-2.0
  */
 
 namespace Box\Mod\Tmch\Controller;
@@ -57,9 +53,15 @@ class Client implements \FOSSBilling\InjectionAwareInterface
             ]);
         }
 
-        $url = "https://test.tmcnis.org/cnis/".$lookupKey.".xml";
-        $username = "";
-        $password = "";
+        $username = $this->tmchMeta('username', '');
+        $password = $this->tmchMeta('password', '');
+        $tmchTest = $this->tmchMeta('tmch_test', '0') === '1';
+
+        $baseUrl = $tmchTest
+            ? 'https://test.tmcnis.org/cnis/'
+            : 'https://tmcnis.org/cnis/';
+
+        $url = $baseUrl . $lookupKey . '.xml';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -137,6 +139,17 @@ class Client implements \FOSSBilling\InjectionAwareInterface
             'error' => $error,
         ]);
 
+    }
+
+    private function tmchMeta(string $key, string $default = ''): string
+    {
+        $bean = $this->di['db']->findOne(
+            'extension_meta',
+            "extension = :ext AND meta_key = :key",
+            ['ext' => 'mod_tmch', 'key' => $key]
+        );
+
+        return $bean ? (string)$bean->meta_value : $default;
     }
 
 }

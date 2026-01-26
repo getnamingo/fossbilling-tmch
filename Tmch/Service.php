@@ -1,17 +1,13 @@
 <?php
-
 /**
- * FOSSBilling.
+ * FOSSBilling-TMCH module
  *
- * @copyright FOSSBilling (https://www.fossbilling.org)
- * @license   Apache-2.0
+ * Written in 2024–2026 by Taras Kondratyuk (https://namingo.org)
+ * Based on example modules and inspired by existing modules of FOSSBilling
+ * (https://www.fossbilling.org) and BoxBilling.
  *
- * Copyright FOSSBilling 2022
- * This software may contain code previously used in the BoxBilling project.
- * Copyright BoxBilling, Inc 2011-2021
- *
- * This source file is subject to the Apache-2.0 License that is bundled
- * with this source code in the file LICENSE
+ * @license Apache-2.0
+ * @see https://www.apache.org/licenses/LICENSE-2.0
  */
 
 namespace Box\Mod\Tmch;
@@ -28,11 +24,7 @@ class Service
     }
 
     /**
-     * Method to install the module. In most cases you will use this
-     * to create database tables for your module.
-     *
-     * If your module isn't very complicated then the extension_meta
-     * database table might be enough.
+     * Method to install the module.
      *
      * @return bool
      *
@@ -40,7 +32,6 @@ class Service
      */
     public function install(): bool
     {
-        // Execute SQL script if needed
         $db = $this->di['db'];
         $db->exec('SELECT NOW()');
 
@@ -49,11 +40,7 @@ class Service
     }
 
     /**
-     * Method to uninstall module. In most cases you will use this
-     * to remove database tables for your module.
-     *
-     * You also can opt to keep the data in the database if you want
-     * to keep the data for future use.
+     * Method to uninstall module.
      *
      * @return bool
      *
@@ -66,9 +53,7 @@ class Service
     }
 
     /**
-     * Method to update module. When you release new version to
-     * extensions.fossbilling.org then this method will be called
-     * after the new files are placed.
+     * Method to update module.
      *
      * @param array $manifest - information about the new module version
      *
@@ -95,4 +80,5 @@ class Service
     {
         return $row;
     }
+
 }
