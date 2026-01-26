@@ -1,5 +1,5 @@
 # TMCH Claims Notice Support
-Supports managing Trademark Clearinghouse (TMCH) claims notices
+Supports viewing Trademark Clearinghouse (TMCH) claims notices
 
 ## Installation
 
