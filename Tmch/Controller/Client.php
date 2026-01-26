@@ -75,8 +75,19 @@ class Client implements \FOSSBilling\InjectionAwareInterface
 
         if (curl_errno($ch)) {
             $error = curl_error($ch);
+            throw new \FOSSBilling\InformationException(
+                'TMCH connection error: ' . curl_error($ch)
+            );
         }
+
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($statusCode !== 200) {
+            throw new \FOSSBilling\InformationException(
+                'TMCH request failed (HTTP ' . $statusCode . ')'
+            );
+        }
+
         curl_close($ch);
 
         if ($xml) {
