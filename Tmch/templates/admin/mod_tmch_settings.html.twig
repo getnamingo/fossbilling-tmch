@@ -9,14 +9,14 @@
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{{ '/'|alink }}">
+            <a href="{{ '/'|url }}">
                 <svg class="icon">
                     <use xlink:href="#home" />
                 </svg>
             </a>
         </li>
         <li class="breadcrumb-item">
-            <a href="{{ 'system'|alink }}">{{ 'Settings'|trans }}</a></li>
+            <a href="{{ 'system'|url }}">{{ 'Settings'|trans }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ 'TMCH'|trans }}</li>
     </ol>
 {% endblock %}
@@ -27,7 +27,7 @@
             <h3 class="card-title">{{ 'TMCH'|trans }}</h3>
         </div>
         <div class="card-body border-bottom">
-            <form method="post" action="{{ 'api/admin/tmch/settings'|link }}" class="api-form" data-api-msg="{{ 'Configuration updated'|trans }}">
+            <form method="post" action="{{ 'tmch/settings'|api_url(role='admin') }}" {{ fb_api_form({ message: 'Configuration updated'|trans }) }}>
                 <div class="row row-cards">
                     <div class="col-sm-5 col-md-4">
                         <label class="form-label required" for="username">{{ 'Username'|trans }}</label>

@@ -12,7 +12,7 @@
 
 namespace Box\Mod\TMCH\Api;
 
-class Admin extends \Api_Abstract
+class Admin extends \FOSSBilling\Api\AbstractApi
 {
     /**
      * Save TMCH credentials.
