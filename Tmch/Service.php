@@ -23,6 +23,13 @@ class Service
         $this->di = $di;
     }
 
+    public function getModulePermissions(): array
+    {
+        return [
+            'manage_settings' => [],
+        ];
+    }
+
     /**
      * Method to install the module.
      *
